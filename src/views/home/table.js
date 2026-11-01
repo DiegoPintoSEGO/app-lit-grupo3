@@ -21,49 +21,107 @@ class Table extends LitElement {
       color: #1e293b;
     }
 
-    h1 {
-      font-size: 1.5rem;
+    .card {
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      background: #fff;
+      box-shadow: 0 4px 14px rgb(15 23 42 / 8%);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .count {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .scroll {
+      overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: #fff;
-      box-shadow: 0 4px 14px rgb(15 23 42 / 8%);
+      font-size: 0.95rem;
     }
 
     th,
     td {
-      padding: 0.6rem 0.8rem;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 0.75rem 1rem;
       text-align: left;
+      white-space: nowrap;
     }
 
     th {
-      background: #f1f5f9;
-      color: #334155;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .muted {
+      color: #94a3b8;
     }
 
     .num {
       text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .strong {
+      font-weight: 600;
     }
 
     .empty {
-      padding: 1.5rem;
+      padding: 2.5rem 1rem;
       text-align: center;
       color: #64748b;
+      white-space: normal;
     }
 
     tfoot td {
       font-weight: 700;
       background: #f8fafc;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .total {
+      color: #1d4ed8;
+      font-size: 1.05rem;
     }
 
     .estado {
       display: inline-block;
-      padding: 0.15rem 0.6rem;
+      padding: 0.2rem 0.65rem;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
     }
 
@@ -111,48 +169,56 @@ class Table extends LitElement {
     let total = pedidos.reduce((suma, pedido) => suma + this.subtotal(pedido), 0);
 
     return html`
-      <h1>Listado de pedidos</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cliente</th>
-            <th>Producto</th>
-            <th class="num">Cantidad</th>
-            <th class="num">Precio</th>
-            <th class="num">Subtotal</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${pedidos.length === 0
-            ? html`<tr><td class="empty" colspan="8">No hay pedidos registrados</td></tr>`
-            : pedidos.map((pedido, index) => html`
-                <tr>
-                  <td>${index + 1}</td>
-                  <td>${pedido.cliente || '—'}</td>
-                  <td>${pedido.producto || '—'}</td>
-                  <td class="num">${pedido.cantidad ?? '—'}</td>
-                  <td class="num">${this.dinero(pedido.precio || 0)}</td>
-                  <td class="num">${this.dinero(this.subtotal(pedido))}</td>
-                  <td>${pedido.fecha || '—'}</td>
-                  <td>
-                    <span class="estado ${this.claseEstado(pedido.estado)}">
-                      ${pedido.estado || '—'}
-                    </span>
-                  </td>
-                </tr>
-              `)}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="5">Total (${pedidos.length} pedidos)</td>
-            <td class="num">${this.dinero(total)}</td>
-            <td colspan="2"></td>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="card">
+        <div class="header">
+          <h2>Listado de pedidos</h2>
+          <span class="count">${pedidos.length} ${pedidos.length === 1 ? 'pedido' : 'pedidos'}</span>
+        </div>
+
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th class="num">Cantidad</th>
+                <th class="num">Precio</th>
+                <th class="num">Subtotal</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pedidos.length === 0
+                ? html`<tr><td class="empty" colspan="8">No hay pedidos registrados todavía</td></tr>`
+                : pedidos.map((pedido, index) => html`
+                    <tr>
+                      <td class="muted">${index + 1}</td>
+                      <td class="strong">${pedido.cliente || '—'}</td>
+                      <td>${pedido.producto || '—'}</td>
+                      <td class="num">${pedido.cantidad ?? '—'}</td>
+                      <td class="num">${this.dinero(pedido.precio || 0)}</td>
+                      <td class="num strong">${this.dinero(this.subtotal(pedido))}</td>
+                      <td>${pedido.fecha || '—'}</td>
+                      <td>
+                        <span class="estado ${this.claseEstado(pedido.estado)}">
+                          ${pedido.estado || '—'}
+                        </span>
+                      </td>
+                    </tr>
+                  `)}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">Total</td>
+                <td class="num total">${this.dinero(total)}</td>
+                <td colspan="2"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
     `;
   }
 }

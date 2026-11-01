@@ -1,27 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>app-lit</title>
+    <title>Gestión de pedidos</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem 1rem;
+        background: #f1f5f9;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        margin: 0;
+        text-align: center;
+        color: #1e293b;
+      }
+
+      .subtitle {
+        margin: 0.4rem 0 0;
+        text-align: center;
+        color: #64748b;
+      }
+    </style>
   </head>
   <body>
-    <!-- <wc-button></wc-button> -->
-    
-    <h1>Componente de navegacion</h1>
-    <wc-navbar></wc-navbar>
-    <wc-viewport>
-      <wc-route path="/home">
-        <wc-home></wc-home>
-      </wc-route>
-      <wc-route path="page2">
-        <wc-page2></wc-page2>
-      </wc-route>
-      <wc-route path="page3">
-        <wc-page3></wc-page3>
-      </wc-route>
-    </wc-viewport>
+    <h1>Gestión de pedidos</h1>
+    <p class="subtitle">Registra los pedidos y revisa su estado y total</p>
+
+    <wc-home></wc-home>
+
     <script type="module" src="/src/index.js"></script>
   </body>
 </html>
