@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app-lit</title>
+  </head>
+  <body>
+    <!-- <wc-button></wc-button> -->
+    
+    <h1>Componente de navegacion</h1>
+    <wc-navbar></wc-navbar>
+    <wc-viewport>
+      <wc-route path="/home">
+        <wc-home></wc-home>
+      </wc-route>
+      <wc-route path="page2">
+        <wc-page2></wc-page2>
+      </wc-route>
+      <wc-route path="page3">
+        <wc-page3></wc-page3>
+      </wc-route>
+    </wc-viewport>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
